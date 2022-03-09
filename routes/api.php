@@ -31,5 +31,8 @@ Route::group(['prefix' => 'test', 'middleware' => 'auth.api'], function() {
 
     # 自定义验证
     Route::post('/vvv', [IndexController::class, 'validate']);
+
+    # 文件上传
+    Route::post('/upload', [IndexController::class, 'upload']);
 });
 
