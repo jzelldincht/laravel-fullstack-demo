@@ -1,0 +1,50 @@
+<?php
+
+namespace Modules\Api\Http\Requests;
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+
+class TestRequest extends FormRequest
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'name' => 'required|between:2,20',
+            'age' => 'required|integer|between:18,120',
+            'hans' => 'required|chs',
+        ];
+    }
+
+    public function messages(){
+        return [
+            'name.required' => '请输入姓名',
+            'name.between' => '姓名最少2个字符，最多20个字符',
+            'age.required' => '请输入年龄',
+            'age.integer' => '年龄只能是数字',
+            'age.between' => '年龄不正常',
+            'hans.required' => '请输入汉字',
+            'hans.chs' => '字符应该全是中文',
+        ];
+    }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        dd($validator->errors()->messages());
+    }
+}
