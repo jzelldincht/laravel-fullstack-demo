@@ -31,12 +31,13 @@ use Modules\Common\Variables\ResponseStatus;
 class IndexController extends ApiController
 {
     public function index() {
-        return 'Api 1';
+        throw new ApiException();
     }
 
     /**
      * 验证请求信息
      * 验证的文档：https://laravelacademy.org/post/21984
+     * @throws ApiException
      */
     public function validate(TestRequest $request)
     {
