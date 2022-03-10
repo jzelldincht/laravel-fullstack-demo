@@ -20,9 +20,13 @@ namespace Modules\Api\Http\Controllers\v1;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Modules\Api\Exceptions\ApiException;
 use Modules\Api\Http\Controllers\ApiController;
 use Modules\Api\Http\Requests\FileUploadRequest;
 use Modules\Api\Http\Requests\TestRequest;
+use Modules\Common\Variables\HttpStatus;
+use Modules\Common\Variables\ResponseMessage;
+use Modules\Common\Variables\ResponseStatus;
 
 class IndexController extends ApiController
 {
@@ -81,9 +85,11 @@ class IndexController extends ApiController
         //
 
         // 获取 IP
-        $ip = $request->getClientIp();
-        dd($ip);
+        // $ip = $request->getClientIp();
+        // dd($ip);
 
+        // 异常处理测试
+        // throw new ApiException(['status' => ResponseStatus::BAD_REQUEST, 'message' => ResponseMessage::INTERNAL_SERVER_ERROR]);
     }
 
     /*

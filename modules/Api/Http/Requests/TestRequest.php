@@ -28,8 +28,8 @@ class TestRequest extends FormRequest
             'age.required' => '请输入年龄',
             'age.integer' => '年龄只能是数字',
             'age.between' => '年龄不正常',
-            'hans.required' => '请输入汉字',
-            'hans.chs' => '字符应该全是中文',
+            'hans.required' => '请输入中文',
+            'hans.chs' => '中文字符应该全是中文',
         ];
     }
 
@@ -43,8 +43,9 @@ class TestRequest extends FormRequest
         return true;
     }
 
-    public function failedValidation(Validator $validator)
-    {
-        dd($validator->errors()->messages());
-    }
+    // // 以下方法不要处理，异常处理统一处理于 modules/Api/Exceptions/Handler.php
+    // public function failedValidation(Validator $validator)
+    // {
+    //
+    // }
 }
