@@ -19,6 +19,7 @@
 namespace Modules\Api\Http\Controllers\v1;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Modules\Api\Exceptions\ApiException;
 use Modules\Api\Http\Controllers\ApiController;
@@ -78,7 +79,7 @@ class IndexController extends ApiController
         // dd($post);
 
         // 获取post表单中的name字段值
-        $name = $request->post('name');
+        // $name = $request->post('name');
         // dd($name);
 
         // $result = $request->file('avatar')->storePubliclyAs('public/images/avatars', 'avatar.png');
@@ -89,8 +90,12 @@ class IndexController extends ApiController
         // $ip = $request->getClientIp();
         // dd($ip);
 
+        // 这会抛出PDO_EXCEPTION异常
+        // $db = DB::connection('mysql')->select('select * from aomeiio');
+        // dd($db);
+
         // 异常处理测试
-        // throw new ApiException(['status' => ResponseStatus::BAD_REQUEST, 'message' => ResponseMessage::INTERNAL_SERVER_ERROR]);
+        // throw new ApiException(['status' => 123456, 'message' => '打虎李连杰']);
     }
 
     /*

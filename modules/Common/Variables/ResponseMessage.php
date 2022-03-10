@@ -31,4 +31,17 @@ class ResponseMessage
     const NOT_FOUND = 'Not Found';// Not found
     const OK = 'OK';// Successfully
 
+    const PARSE_ERROR = 'Syntax Error.';// 语法错误
+
+    const REFLECTION_EXCEPTION = 'Reflection Exception.';// 异常映射
+    const RUNTIME_EXCEPTION = 'Runtime Exception.';// 运行期异常 运行时异常 运行异常 未检查异常
+    const ERROR_EXCEPTION = 'Error Exception.';// 框架运行出错
+
+    const INVALID_ARGUMENT_EXCEPTION = 'Invalid argument exception.';// 数据库链接问题
+    const QUERY_EXCEPTION = 'Query Exception.';// 数据库DB Query错误
+    const MODEL_NOT_FOUND_EXCEPTION = 'Model Not Found Exception.';// 数据库链接问题
+    const PDO_EXCEPTION = 'PDO Exception.';// PDO异常
+
+    const COMMON_EXCEPTION = 'Network Error.';// 通用异常，不方便显示异常信息时，展示此信息。
+
 }
