@@ -18,15 +18,12 @@
 
 namespace Modules\Api\Models;
 
-use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin Eloquent
  * @mixin Builder
  */
-class MyTest extends Model
+class MyTest extends ApiModel
 {
     // 设置 created_at 创建时间
     const CREATED_AT = 'created_at';

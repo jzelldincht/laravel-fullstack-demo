@@ -103,6 +103,9 @@ class IndexController extends ApiController
 
         // 异常处理测试
         // throw new ApiException(['status' => 123456, 'message' => '打虎李连杰']);
+
+        // 执行到此，成功
+        return 'OK';
     }
 
     /*

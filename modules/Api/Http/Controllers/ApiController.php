@@ -4,10 +4,18 @@ namespace Modules\Api\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Modules\Common\Base\BaseController;
 
-class ApiController extends Controller
+/**
+ * Api模块的控制器基类
+ */
+class ApiController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable

@@ -44,4 +44,24 @@ class ResponseMessage
 
     const COMMON_EXCEPTION = 'Network Error.';// 通用异常，不方便显示异常信息时，展示此信息。
 
+    const API_ERROR_EXCEPTION = '操作失败！';
+    const ADD_API_ERROR = '添加失败！';
+    const ADD_API_SUCCESS = '添加成功！';
+    const UPDATE_API_ERROR = '修改失败！';
+    const UPDATE_API_SUCCESS = '修改成功！';
+    const STATUS_API_ERROR = '调整失败！';
+    const STATUS_API_SUCCESS = '调整成功！';
+
+    const DELETE_API_ERROR = '删除失败！';
+    const DELETE_API_SUCCESS = '删除成功！';
+
+    const DELETE_RECYCLE_API_ERROR = '恢复失败！';
+    const DELETE_RECYCLE_API_SUCCESS = '恢复成功！';
+
+    const TOKEN_ERROR_KEY = 'apikey错误！';     // 70001
+    const TOKEN_ERROR_SET = '请先登录！';        // 70002
+    const TOKEN_ERROR_BLACK = 'token 被拉黑！';  // 70003
+    const TOKEN_ERROR_EXPIRED = 'token 过期！';  // 70004
+    const TOKEN_ERROR_JWT = '请先登录！';         //  70005
+    const TOKEN_ERROR_JTB = '请先登录！';          // 70006
 }

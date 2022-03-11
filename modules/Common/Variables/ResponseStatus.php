@@ -40,5 +40,12 @@ class ResponseStatus
     const MODEL_NOT_FOUND_EXCEPTION = 60003;// 数据库模型未找到
     const PDO_EXCEPTION = 60004;// PDO异常
 
+    const TOKEN_ERROR_KEY = 70001;
+    const TOKEN_ERROR_SET = 70002;
+    const TOKEN_ERROR_BLACK = 70003;
+    const TOKEN_ERROR_EXPIRED = 70004;
+    const TOKEN_ERROR_JWT = 70005;
+    const TOKEN_ERROR_JTB = 70006;
+
     const COMMON_EXCEPTION = 10000;// 通用异常，不方便显示异常信息时，展示此信息。
 }
