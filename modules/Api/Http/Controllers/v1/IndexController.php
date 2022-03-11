@@ -25,12 +25,19 @@ use Modules\Api\Exceptions\ApiException;
 use Modules\Api\Http\Controllers\ApiController;
 use Modules\Api\Http\Requests\FileUploadRequest;
 use Modules\Api\Http\Requests\TestRequest;
+use Modules\Api\Models\MyTest;
 use Modules\Common\Variables\HttpStatus;
 use Modules\Common\Variables\ResponseMessage;
 use Modules\Common\Variables\ResponseStatus;
 
 class IndexController extends ApiController
 {
+    /**
+     * 数据库执行结果
+     * @var bool
+     */
+    public $result = false;
+
     public function index() {
         throw new ApiException();
     }
@@ -109,5 +116,89 @@ class IndexController extends ApiController
         $uploadedPath = $request->uploadedPath;
 
         return '上传成功';
+    }
+
+    /**
+     * 测试DB类
+     * 文档
+     * @param Request $request
+     */
+    public function db(Request $request) {
+        $table = DB::table('article');
+
+        // // 插入一条数据
+        // $this->result = $table->insert([
+        //     'title' => '士兵突击',
+        //     'body' => 'laravel批量生成假数据_阳水平的博客-CSDN博客',
+        //     'avatar' => '',
+        //     'cate_id' => 2,
+        //     'created_at' => date("Y-m-d H:i:s", time()),
+        // ]);
+        //
+        // $this->result = $table->insert([
+        //     'title' => '注定被删的数据',
+        //     'body' => '这条数据要被删除的',
+        //     'avatar' => '',
+        //     'cate_id' => 1,
+        //     'created_at' => date("Y-m-d H:i:s", time()),
+        // ]);
+        //
+        // // 更新一条数据
+        // $this->result = $table->where('id', '=', 4)->update([
+        //     'title' => '单元测试时保证数据库整洁'
+        // ]);
+        //
+        // // 删除一条数据
+        // $this->result = $table->delete(5);
+        //
+
+
+        // // --- 查询所有记录
+        // $this->result = $table->select('id', 'title', 'body', 'cate_id', 'avatar')
+        //     ->get()->toArray();
+        //
+        //
+        // // --- 条件查询
+        // $this->result = $table->select('id', 'title', 'body', 'cate_id', 'avatar', 'created_at')
+        //     ->where('cate_id', 2)->get()->toArray();
+        //
+        // // --- 查询某字段的值
+        // $this->result = $table->select('title')->where('id', 1)
+        //     ->value('id');
+        //
+        // // --- 查询某列的结果
+        // $this->result = $table->where('cate_id', 2)
+        //     ->pluck('title');
+        //
+        // // --- 查询数据库条数
+        // $this->result = $table->count('id');
+        //
+        // // --- 查询最小(大)值
+        // $this->result = $table->where('cate_id', 2)->max('id');
+        //
+        // // --- 查询排序
+        // $this->result = $table->where('id', '>=', 2)->orderByDesc('id')
+        //     ->get()->toArray();
+
+        // // --- 从结果中获取单行或单列
+        // $this->result = $table->where('cate_id', 2)->orderByDesc('created_at')
+        //     ->first();// 获取结果集中的最新创建的数据
+
+        // // --- 通过主键字段获取一行
+        // $this->result = $table->find(3);
+
+        // // --- 分块结果 chunk: https://learnku.com/docs/laravel/8.5/queries/10404#53a561
+
+        // // --- 判断记录是否存在
+        // $this->result = $table->where('id', 77)->exists();
+
+
+        /**
+         * 使用 Laravel 模型来查询数据
+         */
+        $this->result = MyTest::where('id', 2)->first()->toArray();
+
+
+        dd($this->result);
     }
 }

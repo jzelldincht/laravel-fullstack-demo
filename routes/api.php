@@ -34,5 +34,8 @@ Route::group(['prefix' => 'test', 'middleware' => 'auth.api'], function() {
 
     # 文件上传
     Route::post('/upload', [IndexController::class, 'upload']);
+
+    # DB类数据库操作
+    Route::post('/db', [IndexController::class, 'db']);
 });
 

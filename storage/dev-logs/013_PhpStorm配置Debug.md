@@ -61,3 +61,12 @@ xdebug.overload_var_dump=0
 **附**：[详细的PhpStorm与Xdebug的用法](https://www.php.cn/jishu/php/410116.html)(可以解决我们首次使用Xdebug的一些疑惑吧) <br>
 > **注意**：生产环境禁止使用Xdebug，因为其非常消耗服务器资源。
 
+## Xdebug自动断开
+
+找到`httpd.conf`配置文件，添加如下配置：
+```php 
+... ## Other configurations
+
+IPCConnectTimeout 3600
+IPCCommTimeout 3600
+```
