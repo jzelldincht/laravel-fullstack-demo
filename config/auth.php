@@ -40,6 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+        'auth' => [
+            'driver' => 'jwt',
+            'provider' => 'auth_admins',
+        ],
     ],
 
     /*
@@ -69,6 +78,11 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'auth_admins' => [
+            'driver' => 'eloquent',
+            'model' => Modules\Api\Models\AuthAdmin::class,
+        ],
     ],
 
     /*

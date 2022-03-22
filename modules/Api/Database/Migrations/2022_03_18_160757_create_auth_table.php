@@ -33,8 +33,8 @@ class CreateAuthTable extends Migration
         Schema::create('auth_groups', function (Blueprint $table) {
             // $table->comment = '权限组表';
             $table->increments('id')->comment('ID');
-            $table->string('name', 100)->unique()->default('')->comment('权限名称');
-            $table->string('content')->nullable()->default('')->comment('权限描述');
+            $table->string('name', 100)->unique()->default('')->comment('名称');
+            $table->string('content')->nullable()->default('')->comment('描述');
             $table->tinyInteger('status')->default(1)->comment('状态:0=禁用,1=启用');
             $table->longText('rules')->nullable()->comment('权限规则多个用|隔开');
             $table->timestamp('created_at')->nullable()->comment('创建时间');
@@ -56,7 +56,6 @@ class CreateAuthTable extends Migration
             $table->string('icon', 50)->nullable()->default('')->comment('图标名称');
             $table->string('pid')->default(0)->comment('父级ID');
             $table->string('sort')->default(1)->comment("排序");
-            $table->longText('rules')->nullable()->comment('权限规则多个用|隔开');
             $table->timestamp('created_at')->nullable()->comment('创建时间');
             $table->timestamp('updated_at')->nullable()->comment('更新时间');
         });
