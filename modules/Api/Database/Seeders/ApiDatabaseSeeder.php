@@ -17,5 +17,6 @@ class ApiDatabaseSeeder extends Seeder
         Model::unguard();
 
         // $this->call("OthersTableSeeder");
+        $this->call(AuthsTableSeeder::class);
     }
 }
