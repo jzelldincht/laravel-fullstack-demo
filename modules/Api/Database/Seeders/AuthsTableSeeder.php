@@ -75,7 +75,9 @@ class AuthsTableSeeder extends Seeder
 
         DB::table('auth_admins')->insert([
             'username' => 'admin',
-            'password' => bcrypt('123456'),
+            'name' => '赖均',
+            'phone' => '15388172082',
+            'password' => bcrypt('888888'),
             'group_id' => $group_id,
             'project_id' => $project_id,
             'created_at' => date('Y-m-d H:i:s')

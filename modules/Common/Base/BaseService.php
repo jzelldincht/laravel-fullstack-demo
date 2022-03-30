@@ -306,7 +306,7 @@ class BaseService
      * @param int length Int 生成字符串长度
      * @return string
      */
-    public function GetRandStr(int $length = 11): string
+    public function randomString(int $length = 11): string
     {
         //字符组合
         $str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

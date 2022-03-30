@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
 use Modules\Api\Exceptions\ApiException;
@@ -86,6 +87,7 @@ class Handler extends ExceptionHandler
             'message' => null,
             'code' => HttpStatus::BAD_REQUEST,
         ],
+
     ];
 
     /**
@@ -146,7 +148,7 @@ class Handler extends ExceptionHandler
                         $message = $e->getModel();
                     } else if (method_exists($e, 'getMessage') && $e->getMessage()) {
                         $message = $e->getMessage();
-                    } else if (method_exists('apiMessage') && $e->apiMessage()) {
+                    } else if (method_exists($e,'apiMessage') && $e->apiMessage()) {
                         // ApiException 时返回$e->message;
                         $message = $e->apiMessage();
                     }
@@ -179,7 +181,7 @@ class Handler extends ExceptionHandler
                 return response()->json(array_merge([
                     'status' => $exception_class['status'],
                     'message' => $message,
-                ], empty($exception_data) ? [] : ['data' => $exception_data,]), $exception_class['code']);
+                ], empty($exception_data) || App::environment(['production']) ? [] : ['data' => $exception_data,]), $exception_class['code']);
 
             }
         }

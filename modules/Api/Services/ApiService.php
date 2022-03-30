@@ -10,7 +10,9 @@ use Modules\Common\Base\BaseService;
  */
 class ApiService extends BaseService
 {
+
     public function __construct()
     {
+        parent::__construct();
     }
 }
