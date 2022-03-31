@@ -19,26 +19,6 @@ use Modules\Api\Http\Controllers\v1\IndexController;
 //     return $request->user();
 // });
 
-// 接口 v1 版本 auth权限管理分组路由 分组
-Route::group(['prefix' => 'v1', 'middleware' => 'auth.api'], function() {
-    // 登录
-    Route::post('/auth/login', [AuthController::class, 'login']);
-
-    // 退出登录
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
-
-    // 刷新token
-    Route::post('/auth/token-refresh', [AuthController::class, 'refreshToken']);
-
-    // 修改密码
-    Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
-
-
-    // 获取管理员信息
-    Route::get('/auth/admin/info', [AuthController::class, 'adminInformation']);
-
-});
-
 
 if(App::environment(['local', 'staging'])) {
     // 走的是 modules/Api 模块
