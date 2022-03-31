@@ -4,6 +4,7 @@ namespace Modules\Api\Services;
 
 use Illuminate\Support\Facades\Auth;
 use Modules\Api\Exceptions\ApiException;
+use Modules\Api\Http\Requests\ChangePasswordRequest;
 use Modules\Api\Models\AuthAdmin;
 use Modules\Common\Variables\ResponseMessage;
 use Modules\Common\Variables\ResponseStatus;
@@ -61,5 +62,21 @@ class AuthService extends ApiService
     {
         $admin = $this->adminObject()->toArray();
         return $this->apiSuccess('', $admin);
+    }
+
+    /**
+     * 修改管理员密码
+     * @return
+     */
+    public function changePassword() {
+        $user_info = $this->adminObject();
+        // 验证是否数据是否OK 验证用户名密码
+        if(true == Auth::guard('auth')->attempt([
+            'username' => $user_info->username, 'password' => $user_info->old_passowrd
+            ])) {
+            dd('pass');
+        }
+
+        dd('error');
     }
 }

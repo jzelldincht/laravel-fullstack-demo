@@ -19,6 +19,7 @@
 namespace Modules\Api\Http\Controllers\v1;
 
 use Modules\Api\Http\Controllers\ApiController;
+use Modules\Api\Http\Requests\ChangePasswordRequest;
 use Modules\Api\Http\Requests\LoginRequest;
 use Modules\Api\Services\AuthService;
 use Modules\Api\Services\TokenService;
@@ -68,7 +69,10 @@ class AuthController extends ApiController
     /**
      * 修改密码
      */
-    public function changePassword(){
-
+    public function changePassword(ChangePasswordRequest $request){
+        return AuthService::getInstance()->changePassword($request->only([
+            'new_password' => $request->post('new_password'),
+            'old_password' => $request->post('old_password')
+        ]));
     }
 }
