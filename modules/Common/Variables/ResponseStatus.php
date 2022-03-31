@@ -47,8 +47,17 @@ class ResponseStatus
     const TOKEN_ERROR_JWT = 70005;
     const TOKEN_ERROR_JTB = 70006;
 
+    const API_ERROR_EXCEPTION = 80001;
+    const ADD_API_ERROR = 80002;
+    const ADD_API_SUCCESS = 81003;
+    const UPDATE_API_ERROR = 80003;
+    const UPDATE_API_SUCCESS = 81002;
+    const STATUS_API_ERROR = 80004;
+    const STATUS_API_SUCCESS = 81001;
+
     const COMMON_EXCEPTION = 10000;// 通用异常，不方便显示异常信息时，展示此信息。
 
     // 以下为提示信息
     const INVALID_USERNAME_OR_PASSWORD = 90001;//用户名或密码错误
+    const INVALID_OLD_PASSWORD = 90002;//原密码错误，场景：修改管理员密码——验证原始密码
 }

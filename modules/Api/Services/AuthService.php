@@ -57,6 +57,7 @@ class AuthService extends ApiService
 
     /**
      * 获取管理员信息
+     * @throws JWTException
      */
     public function adminInfo(): \Illuminate\Http\JsonResponse
     {
@@ -66,17 +67,29 @@ class AuthService extends ApiService
 
     /**
      * 修改管理员密码
-     * @return
+     * @param null $data
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
+     * @throws JWTException
      */
-    public function changePassword() {
-        $user_info = $this->adminObject();
+    public function changePassword($data = null) {
+        $user_info = $this->adminObject()->toArray();
+
         // 验证是否数据是否OK 验证用户名密码
         if(true == Auth::guard('auth')->attempt([
-            'username' => $user_info->username, 'password' => $user_info->old_passowrd
+            'username' => $user_info['username'], 'password' => $data['old_password'],
             ])) {
-            dd('pass');
+
+            // 修改密码
+            if(AuthAdmin::where('username', $user_info['username'])
+                ->update(['password' => bcrypt($data['new_password'])])) {
+                return $this->apiSuccess(ResponseMessage::OK, [], ResponseStatus::OK);
+            }
+
+            // 修改密码失败
+            $this->apiError(ResponseMessage::UPDATE_API_ERROR, ResponseStatus::UPDATE_API_ERROR);
         }
 
-        dd('error');
+        $this->apiError(ResponseMessage::INVALID_OLD_PASSWORD, ResponseStatus::INVALID_OLD_PASSWORD);
     }
 }

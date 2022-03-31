@@ -66,4 +66,5 @@ class ResponseMessage
     const TOKEN_ERROR_JTB = 'Please log in first!';          // 70006
 
     const INVALID_USERNAME_OR_PASSWORD = 'Username or password is invalid.'; // 90001
+    const INVALID_OLD_PASSWORD = 'Invalid original password!';// 90002 //原密码错误，场景：修改管理员密码——验证原始密码
 }

@@ -70,9 +70,9 @@ class AuthController extends ApiController
      * 修改密码
      */
     public function changePassword(ChangePasswordRequest $request){
+
         return AuthService::getInstance()->changePassword($request->only([
-            'new_password' => $request->post('new_password'),
-            'old_password' => $request->post('old_password')
+            'new_password', 'old_password',
         ]));
     }
 }
