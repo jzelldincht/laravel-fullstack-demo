@@ -7,6 +7,8 @@ use Modules\Api\Exceptions\ApiException;
 use Modules\Api\Models\AuthAdmin;
 use Modules\Common\Variables\ResponseMessage;
 use Modules\Common\Variables\ResponseStatus;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -15,9 +17,9 @@ class AuthService extends ApiService
     /**
      * @name | 管理员登录
      * @param array $data 用户登录输入信息
-     * @param data.username 管理员用户名
-     * @param data.password 管理员密码
-     * @return \Modules\Common\Base\JSON
+     * @param string data.username 管理员用户名
+     * @param string data.password 管理员密码
+     * @return \Illuminate\Http\JsonResponse
      * @throws ApiException
      */
     public function login(array $data)
@@ -27,10 +29,10 @@ class AuthService extends ApiService
             $admin_info = Auth::user()->toArray();
             $admin_info['password'] = $data['password'];
 
-            return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->setToken($admin_info), ResponseStatus::OK);
+            return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->setToken($admin_info));
         }
 
-        return $this->apiError(ResponseMessage::INVALID_USERNAME_OR_PASSWORD, ResponseStatus::INVALID_USERNAME_OR_PASSWORD);
+        $this->apiError(ResponseMessage::INVALID_USERNAME_OR_PASSWORD, ResponseStatus::INVALID_USERNAME_OR_PASSWORD);
     }
 
     /**
@@ -39,7 +41,7 @@ class AuthService extends ApiService
     public function logout()
     {
         JWTAuth::parseToken()->invalidate();
-        return $this->apiSuccess(ResponseMessage::OK, [], ResponseStatus::OK);
+        return $this->apiSuccess(ResponseMessage::OK, []);
     }
 
     /**
@@ -55,12 +57,9 @@ class AuthService extends ApiService
     /**
      * 获取管理员信息
      */
-    public function adminInfo() {
-        try {
-            $admin = $this->adminObject()->toArray();
-            return $this->apiSuccess('', $admin);
-        } catch (\Exception $e) {
-            throw new ApiException(['status' => ResponseStatus::TOKEN_ERROR_JTB, 'message' => ResponseMessage::TOKEN_ERROR_JTB]);
-        }
+    public function adminInfo(): \Illuminate\Http\JsonResponse
+    {
+        $admin = $this->adminObject()->toArray();
+        return $this->apiSuccess('', $admin);
     }
 }

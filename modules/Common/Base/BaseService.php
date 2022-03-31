@@ -2,6 +2,7 @@
 
 namespace Modules\Common\Base;
 
+use Illuminate\Database\Eloquent\Model;
 use Modules\Api\Exceptions\ApiException;
 use Modules\Common\Variables\HttpStatus;
 use Modules\Common\Variables\ResponseMessage;
@@ -54,9 +55,9 @@ class BaseService
      * @param $message String 提示信息
      * @param array $data Array 返回信息
      * @param $status Int 自定义状态码
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function apiSuccess(string $message = '', array $data = array(), int $status = ResponseStatus::OK)
+    public function apiSuccess(string $message = '', array $data = array(), int $status = ResponseStatus::OK): \Illuminate\Http\JsonResponse
     {
         if ($message == '') {
             $message = ResponseMessage::OK;
@@ -74,7 +75,6 @@ class BaseService
      * 用于所有的接口返回
      * @param $status Int 自定义状态码
      * @param $message String 提示信息
-     * @return JSON
      * @throws ApiException
      */
     public function apiError(string $message = ResponseMessage::API_ERROR_EXCEPTION, int $status = ResponseStatus::BAD_REQUEST)
@@ -91,9 +91,10 @@ class BaseService
      * @param $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
-    public function commonCreate($model, array $data = [], string $successMessage = ResponseMessage::ADD_API_SUCCESS, string $errorMessage = ResponseMessage::ADD_API_ERROR)
+    public function commonCreate(Model $model, array $data = [], string $successMessage = ResponseMessage::ADD_API_SUCCESS, string $errorMessage = ResponseMessage::ADD_API_ERROR)
     {
         $data['created_at'] = date('Y-m-d H:i:s');
 
@@ -111,9 +112,10 @@ class BaseService
      * @param $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
-    public function commonUpdate($model, $id, array $data = [], string $successMessage = ResponseMessage::UPDATE_API_SUCCESS, string $errorMessage = ResponseMessage::UPDATE_API_ERROR)
+    public function commonUpdate(Model $model, $id, array $data = [], string $successMessage = ResponseMessage::UPDATE_API_SUCCESS, string $errorMessage = ResponseMessage::UPDATE_API_ERROR)
     {
         $data['updated_at'] = date('Y-m-d H:i:s');
 
@@ -131,7 +133,8 @@ class BaseService
      * @param array $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
     public function commonStatusUpdate($model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
     {
@@ -149,9 +152,10 @@ class BaseService
      * @param array $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
-    public function commonSortsUpdate($model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
+    public function commonSortsUpdate(Model $model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
     {
         if ($model->where('id', $id)->update($data) !== false) {
             return $this->apiSuccess($successMessage);
@@ -163,12 +167,13 @@ class BaseService
     /**
      * 真删除公共方法
      * @param Model $model Model  当前模型
-     * @param array ArrId Array  删除id
+     * @param array $ArrId
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
-    public function commonDestroy($model, array $ArrId, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
+    public function commonDestroy(Model $model, array $ArrId, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
     {
         if ($model->whereIn('id', $ArrId)->delete()) {
             return $this->apiSuccess($successMessage);
@@ -183,7 +188,8 @@ class BaseService
      * @param array $idArr Array  删除id
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
     public function commonIsDelete($model, array $idArr, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
     {
@@ -200,7 +206,8 @@ class BaseService
      * @param array $idArr Array  删除id
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return JSON
+     * @return \Illuminate\Http\JsonResponse|void
+     * @throws ApiException
      */
     public function commonRecycleIsDelete($model, array $idArr, string $successMessage = ResponseMessage::DELETE_RECYCLE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_RECYCLE_API_ERROR)
     {
@@ -226,12 +233,12 @@ class BaseService
      * @param string $content String 内容
      * @return string
      */
-    public function getRemvePicUrl(string $content = ''): string
+    public function getRemovePicUrl(string $content = ''): string
     {
         $con = $this->getHttp();
         if ($content) {
             //提取图片路径的src的正则表达式 并把结果存入$matches中
-            preg_match_all("/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/", $content, $matches);
+            preg_match_all("/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))['|\"].*?[\/]?>/i", $content, $matches);
 
             $img = "";
             if (!empty($matches)) {
@@ -273,7 +280,7 @@ class BaseService
         $con = $this->getHttp();
         if ($content) {
             //提取图片路径的src的正则表达式 并把结果存入$matches中
-            preg_match_all("/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/", $content, $matches);
+            preg_match_all("/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/i", $content, $matches);
             $img = "";
             if (!empty($matches)) {
                 //注意，上面的正则表达式说明src的值是放在数组的第三个中

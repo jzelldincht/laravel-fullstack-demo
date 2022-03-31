@@ -2,8 +2,6 @@
 
 namespace Modules\Api\Services;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Config;
 use Modules\Api\Exceptions\ApiException;
 use Modules\Common\Variables\ResponseMessage;
 use Modules\Common\Variables\ResponseStatus;

@@ -20,6 +20,7 @@ namespace Modules\Api\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Api\Exceptions\ApiException;
 use Modules\Common\Variables\ResponseMessage;
 use Modules\Common\Variables\ResponseStatus;
@@ -57,6 +58,7 @@ class AuthenticateApi extends BaseMiddleware // 继承 JWTAuth 的BaseMiddleware
 
         // 不需要提交token的路由
         $path = $request->path();
+        // 检验是否在访问不用token的路由的数组中
         if(in_array($path, config('api.routesWithoutToken')))
         {
             return $next($request);
@@ -73,16 +75,26 @@ class AuthenticateApi extends BaseMiddleware // 继承 JWTAuth 的BaseMiddleware
                 ]);
             }
         } catch (TokenExpiredException $e) {
-            throw new ApiException([
-                'status' => ResponseStatus::TOKEN_ERROR_EXPIRED,
-                'message' => ResponseMessage::TOKEN_ERROR_EXPIRED,
-            ]);
+
+            // 此处捕获到了 token 过期所抛出的 TokenExpiredException 异常，我们在这里需要做的是刷新该用户的 token 并将它添加到响应头中
+            try {
+                // 刷新用户的 token
+                $token = $this->auth->refresh();
+                // Auth::guard('auth')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
+                return $this->setAuthenticationHeader($next($request), $token);
+            } catch (JWTException $exception) {// refresh ttl 时长也到期了
+                throw new ApiException([
+                    'status' => ResponseStatus::TOKEN_ERROR_EXPIRED,
+                    'message' => $exception->getMessage(),
+                ]);
+            }
+
         } catch (TokenBlacklistedException $e) {
             throw new ApiException([
                 'status' => ResponseStatus::TOKEN_ERROR_BLACK,
                 'message' => ResponseMessage::TOKEN_ERROR_BLACK,
             ]);
-        } catch (TokenInvalidException | JWTException $e) {
+        } catch (TokenInvalidException $e) {
             throw new ApiException([
                 'status' => ResponseStatus::TOKEN_ERROR_JTB,
                 'message' => ResponseMessage::TOKEN_ERROR_JTB,
