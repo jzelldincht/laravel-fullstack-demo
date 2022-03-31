@@ -27,6 +27,10 @@ use Tymon\JWTAuth\JWTAuth;
 
 class AuthController extends ApiController
 {
+    public function __construct()
+    {
+    }
+
     /**
      * 登录
      */
