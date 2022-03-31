@@ -31,7 +31,7 @@ class AuthController extends ApiController
      */
     public function login(LoginRequest $request)
     {
-        return (new AuthService())->login($request->only([
+        return AuthService::getInstance()->login($request->only([
             'username', 'password',
         ]));
     }
@@ -43,12 +43,32 @@ class AuthController extends ApiController
      */
     public function refreshToken()
     {
-        return (new TokenService())->refreshToken();
+        return TokenService::getInstance()->refreshToken();
     }
 
-
-    public function adminInfo()
+    /***
+     * 获取 管理员用户信息
+     * @return \Modules\Common\Base\JSON
+     * @throws \Modules\Api\Exceptions\ApiException
+     */
+    public function adminInformation()
     {
-        return  (new AuthService())->adminInfo();
+        return AuthService::getInstance()->adminInfo();
+    }
+
+    /**
+     * 管理员登出
+     * @return mixed
+     */
+    public function logout()
+    {
+        return AuthService::getInstance()->logout();
+    }
+
+    /**
+     * 修改密码
+     */
+    public function changePassword(){
+
     }
 }

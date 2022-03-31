@@ -48,4 +48,7 @@ class ResponseStatus
     const TOKEN_ERROR_JTB = 70006;
 
     const COMMON_EXCEPTION = 10000;// 通用异常，不方便显示异常信息时，展示此信息。
+
+    // 以下为提示信息
+    const INVALID_USERNAME_OR_PASSWORD = 90001;//用户名或密码错误
 }

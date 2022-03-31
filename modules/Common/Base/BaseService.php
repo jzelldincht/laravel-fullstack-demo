@@ -12,6 +12,8 @@ use Modules\Common\Variables\ResponseStatus;
  */
 class BaseService
 {
+    public static $instance = null;
+
     public function __construct()
     {
 
@@ -436,5 +438,18 @@ class BaseService
         $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
         for ($i = 0; $size >= 1024 && $i < 5; $i++) $size /= 1024;
         return round($size, 2) . $delimiter . $units[$i];
+    }
+
+
+    public static function getInstance($params = null){
+        // 获取当前 调用类
+
+        $class = get_called_class();
+
+        if(!self::$instance instanceof $class){
+            self::$instance = new $class($params);
+        }
+
+        return self::$instance;
     }
 }

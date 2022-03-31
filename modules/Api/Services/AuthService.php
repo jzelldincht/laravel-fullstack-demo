@@ -17,7 +17,8 @@ class AuthService extends ApiService
      * @param array $data 用户登录输入信息
      * @param data.username 管理员用户名
      * @param data.password 管理员密码
-     * @return bool
+     * @return \Modules\Common\Base\JSON
+     * @throws ApiException
      */
     public function login(array $data)
     {
@@ -26,10 +27,19 @@ class AuthService extends ApiService
             $admin_info = Auth::user()->toArray();
             $admin_info['password'] = $data['password'];
 
-            return $this->apiSuccess('登录成功', (new TokenService())->setToken($admin_info));
+            return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->setToken($admin_info), ResponseStatus::OK);
         }
 
-        return $this->apiError('用户名或密码错误');
+        return $this->apiError(ResponseMessage::INVALID_USERNAME_OR_PASSWORD, ResponseStatus::INVALID_USERNAME_OR_PASSWORD);
+    }
+
+    /**
+     * 登出/注销登录
+     */
+    public function logout()
+    {
+        JWTAuth::parseToken()->invalidate();
+        return $this->apiSuccess(ResponseMessage::OK, [], ResponseStatus::OK);
     }
 
     /**
