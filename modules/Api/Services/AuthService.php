@@ -28,6 +28,7 @@ class AuthService extends ApiService
         // 验证是否数据是否OK 验证用户名密码
         if(true == Auth::guard('auth')->attempt($data)) {
             $admin_info = Auth::user()->toArray();
+
             $admin_info['password'] = $data['password'];
 
             return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->setToken($admin_info));

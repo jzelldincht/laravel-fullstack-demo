@@ -10,4 +10,9 @@ return [
     'routesWithoutToken' => [
         'api/v1/auth/login',// 登录页面
     ],
+
+    // 缓存中应用到的所有 key
+    'cacheKeys' => [
+        'adminInfo' => 'adminInfo_{:id}',
+    ],
 ];

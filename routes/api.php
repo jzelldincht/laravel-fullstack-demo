@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Api\Http\Controllers\v1\AuthController;
-use Modules\Api\Http\Controllers\v1\IndexController;
+use Modules\Api\Http\Controllers\v1\MyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,16 +28,16 @@ if(App::environment(['local', 'staging'])) {
         });
 
         # 路由与控制器绑定
-        Route::get('/vvv', [IndexController::class, 'index']);
+        Route::get('/vvv', [MyController::class, 'index']);
 
         # 自定义验证
-        Route::post('/vvv', [IndexController::class, 'validate']);
+        Route::post('/vvv', [MyController::class, 'validate']);
 
         # 文件上传
-        Route::post('/upload', [IndexController::class, 'upload']);
+        Route::post('/upload', [MyController::class, 'upload']);
 
         # DB类数据库操作
-        Route::post('/db', [IndexController::class, 'db']);
+        Route::post('/db', [MyController::class, 'db']);
     });
 }
 

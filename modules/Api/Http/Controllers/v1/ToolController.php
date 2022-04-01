@@ -11,35 +11,25 @@
  * + ------------------------------------------------------ +
  * | Version: v1.0.0                                        |
  * + ------------------------------------------------------ +
- * @date 2022/3/9 10:17
+ * @date 2022/4/1 10:14
  * @author Zell <jzell@qq.com>
  * @description
  */
 
 namespace Modules\Api\Http\Controllers\v1;
 
-use Illuminate\Support\Facades\Request;
 use Modules\Api\Http\Controllers\ApiController;
-use Modules\Api\Http\Requests\ModuleIdRequest;
-use Modules\Api\Services\ModuleService;
+use Modules\Api\Services\ToolService;
 
-class IndexController extends ApiController
+class ToolController extends ApiController
 {
     /**
-     * 获取模块信息
+     * TODO: 清除缓存
+     * 说明：该功能会清除站点缓存的所有数据
      */
-    public function getModules()
-    {
-        return ModuleService::getInstance()->getModules();
+    public function clearCache(){
+        return ToolService::getInstance()->clearCache();
     }
 
-    /**
-     * 获取指定模块的菜单
-     * @param ModuleIdRequest $request
-     * @return mixed
-     */
-    public function getMenus(ModuleIdRequest $request)
-    {
-        return ModuleService::getInstance()->getMenus($request->get('mid'));
-    }
+
 }

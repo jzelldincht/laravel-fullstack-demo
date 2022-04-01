@@ -4,9 +4,13 @@ namespace Modules\Api\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Modules\Api\Services\ApiService;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * 权限管理员模型
+ * 1. 需要实现 JWTSubject 接口
+ * 2. 需要继承 use Illuminate\Foundation\Auth\User
+ */
 class AuthAdmin extends Authenticatable implements JWTSubject
 {
     use Notifiable;
