@@ -23,15 +23,11 @@ class TokenService extends ApiService
 
     /**
      * 设置token
-     * @param $user_data array 用户信息
+     * @param string $token 用户信息
      * @return array
      */
-    public function setToken(array $user_data): array
+    public function setToken(string $token = ''): array
     {
-        if( !$token = JWTAuth::attempt($user_data) ) {
-            $token = '';
-        }
-
         return $this->responseWithToken($token);
     }
 
@@ -55,8 +51,9 @@ class TokenService extends ApiService
     public function refreshToken()
     {
         try {
-            $old_token = JWTAuth::getToken();
-            $new_token = JWTAuth::refresh($old_token);
+            // Pass true as the first param to force the token to be blacklisted "forever".
+            // The second parameter will reset the claims for the new token
+            $new_token = auth()->refresh(true, true);
 
             return $this->apiSuccess('', $this->responseWithToken($new_token));
         } catch (TokenBlacklistedException $e) {

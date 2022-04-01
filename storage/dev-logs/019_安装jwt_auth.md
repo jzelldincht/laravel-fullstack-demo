@@ -7,8 +7,16 @@ composer require tymon/jwt-auth 1.*@rc
 
 ## 2. 将服务提供程序添加到配置文件中的 providers 数组, config/app.php 如下所示：
 ```php 
+...
 'providers' => [
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+],
+...
+'aliases' => [
+    ...
+    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+    ...
 ],
 ```
 

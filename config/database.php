@@ -142,6 +142,13 @@ return [
             'read_write_timeout' => env('REDIS_READ_WRITE_TIMEOUT', 60),
         ],
 
+        'session' => [
+            'host' => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', 888888),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => 7,
+            'read_write_timeout' => env('REDIS_READ_WRITE_TIMEOUT', 60),
+        ],
     ],
 
 ];

@@ -15,23 +15,32 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService extends ApiService
 {
+    public static $_user=null;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * @name | 管理员登录
-     * @param array $data 用户登录输入信息
+     * @param array $credentials 用户登录输入信息
      * @param string data.username 管理员用户名
      * @param string data.password 管理员密码
      * @return \Illuminate\Http\JsonResponse
      * @throws ApiException
      */
-    public function login(array $data)
+    public function login(array $credentials)
     {
         // 验证是否数据是否OK 验证用户名密码
-        if(true == Auth::guard('auth')->attempt($data)) {
-            $admin_info = Auth::user()->toArray();
+        $token = auth()->attempt($credentials);//会生成一个jwt token
+        if($token) {
+            self::$_user = auth()->user()->toArray();
 
-            $admin_info['password'] = $data['password'];
+            // 缓存一下
+            ToolService::getInstance()->saveCache(config('api.cacheKeys.adminInfo').self::$_user['id'], json_encode(self::$_user));
 
-            return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->setToken($admin_info));
+            return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->responseWithToken($token));
         }
 
         $this->apiError(ResponseMessage::INVALID_USERNAME_OR_PASSWORD, ResponseStatus::INVALID_USERNAME_OR_PASSWORD);
@@ -42,18 +51,10 @@ class AuthService extends ApiService
      */
     public function logout()
     {
-        JWTAuth::parseToken()->invalidate();
-        return $this->apiSuccess(ResponseMessage::OK, []);
-    }
+        // Pass true as the first param to force the token to be blacklisted "forever".
+        auth()->invalidate(true);
 
-    /**
-     * 用户管理员用户对象
-     * @return object
-     * @throws \Tymon\JWTAuth\Exceptions\JWTException
-     */
-    public function adminObject(): object
-    {
-        return JWTAuth::parseToken()->toUser();
+        return $this->apiSuccess(ResponseMessage::OK, []);
     }
 
     /**
@@ -62,8 +63,8 @@ class AuthService extends ApiService
      */
     public function adminInfo(): \Illuminate\Http\JsonResponse
     {
-        $admin = $this->adminObject()->toArray();
-        return $this->apiSuccess('', $admin);
+        $admin = auth()->user()->toArray();
+        return $this->apiSuccess(ResponseMessage::OK, $admin);
     }
 
     /**
@@ -73,18 +74,17 @@ class AuthService extends ApiService
      * @throws ApiException
      * @throws JWTException
      */
-    public function changePassword($data = null) {
-        $user_info = $this->adminObject()->toArray();
+    public function changePassword($credentials = null) {
+        $user_info = auth()->user()->toArray();
 
         // 验证是否数据是否OK 验证用户名密码
-        if(true == Auth::guard('auth')->attempt([
-            'username' => $user_info['username'], 'password' => $data['old_password'],
-            ])) {
-
+        if(auth()->attempt([
+            'username' => $user_info['username'],
+            'password' => $credentials['old_password'],
+        ])) {
             // 修改密码
-            if(AuthAdmin::where('username', $user_info['username'])
-                ->update(['password' => bcrypt($data['new_password'])])) {
-                return $this->apiSuccess(ResponseMessage::OK, [], ResponseStatus::OK);
+            if(AuthAdmin::where('username', $user_info['username'])->update(['password' => bcrypt($credentials['new_password'])])) {
+                return $this->apiSuccess(ResponseMessage::OK, []);
             }
 
             // 修改密码失败

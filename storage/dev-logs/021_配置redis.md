@@ -1,3 +1,93 @@
+# 配置使用redis
+
+## 1. 安装 predis
+
+```php 
+composer require predis/predis
+```
+
+## 2. 配置文件
+`app/config/database.php`
+
+```php 
+'redis' => [
+    // client 设置为 predis
+    'client' => env('REDIS_CLIENT', 'predis'),
+    
+    'options' => [
+        'cluster' => env('REDIS_CLUSTER', 'redis'),
+        'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+    ],
+
+    'default' => [
+        'host' => env('REDIS_HOST', 'localhost'),
+        'password' => env('REDIS_PASSWORD', 888888),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 8,
+        'read_write_timeout' => env('REDIS_READ_WRITE_TIMEOUT', 60),
+    ],
+
+    'cache' => [// 使用缓存时启用这个连接
+        'host' => env('REDIS_HOST', 'localhost'),
+        'password' => env('REDIS_PASSWORD', 888888),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 6,
+        'read_write_timeout' => env('REDIS_READ_WRITE_TIMEOUT', 60),
+    ],
+
+    'session' => [// 使用session时启用这个连接
+        'host' => env('REDIS_HOST', 'localhost'),
+        'password' => env('REDIS_PASSWORD', 888888),
+        'port' => env('REDIS_PORT', 6379),
+        'database' => 6,
+        'read_write_timeout' => env('REDIS_READ_WRITE_TIMEOUT', 60),
+    ],
+],
+```
+
+## 3. 配置 .env 文件
+`.env`
+
+``` 
+BROADCAST_DRIVER=log
+CACHE_DRIVER=redis # 修改为redis
+FILESYSTEM_DRIVER=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=redis # 修改为redis
+SESSION_LIFETIME=120
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=redis
+FILESYSTEM_DRIVER=local
+QUEUE_CONNECTION=sync
+SESSION_SECURE_COOKIE=true
+SESSION_HTTP_ONLY=false
+SESSION_DRIVER=redis
+SESSION_COOKIE=fullstack
+SESSION_CONNECTION=session
+SESSION_LIFETIME=120
+
+
+```
+
+## 3. 配置 config/cache.php
+
+```php 
+'stores' => [
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'cache',
+        'lock_connection' => 'default',
+    ],
+],
+...
+'prefix' => env('CACHE_PREFIX', 'fs:cache'),
+...
+```
+
+## 4. 配置 config/session.php
+
+```php 
 <?php
 
 use Illuminate\Support\Str;
@@ -196,3 +286,30 @@ return [
     'same_site' => 'lax',
 
 ];
+
+````
+
+## 6. 配置 app/Http/Kernel.php
+
+```php 
+/**
+ * The application's global HTTP middleware stack.
+ *
+ * These middleware are run during every request to your application.
+ *
+ * @var array<int, class-string|string>
+ */
+protected $middleware = [
+    \App\Http\Middleware\EncryptCookies::class,// 增加该行
+    \Illuminate\Session\Middleware\StartSession::class,// 增加该行
+    // \App\Http\Middleware\TrustHosts::class,
+    \App\Http\Middleware\TrustProxies::class,
+    \Fruitcake\Cors\HandleCors::class,
+    \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+    \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+    \App\Http\Middleware\TrimStrings::class,
+    \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+];
+```
+
+配置完成后，当我们使用Session或Cache时均保存在redis中。

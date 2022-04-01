@@ -54,7 +54,7 @@ class ToolService extends ApiService
         if($value == null){
             return Cache::get($key);
         } else {// 否则设置数据
-            Cache::set($key, $value);
+            Cache::put($key, $value, config('api.cacheExpires'));
         }
     }
 

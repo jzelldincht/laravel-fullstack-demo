@@ -23,12 +23,12 @@ use Modules\Api\Http\Requests\ChangePasswordRequest;
 use Modules\Api\Http\Requests\LoginRequest;
 use Modules\Api\Services\AuthService;
 use Modules\Api\Services\TokenService;
-use Tymon\JWTAuth\JWTAuth;
 
 class AuthController extends ApiController
 {
     public function __construct()
     {
+        parent::__construct();
     }
 
     /**
@@ -44,7 +44,6 @@ class AuthController extends ApiController
     /**
      * 刷新token
      * @return \Modules\Common\Base\JSON
-     * @throws \Modules\Api\Exceptions\ApiException
      */
     public function refreshToken()
     {
@@ -54,7 +53,6 @@ class AuthController extends ApiController
     /***
      * 获取 管理员用户信息
      * @return \Modules\Common\Base\JSON
-     * @throws \Modules\Api\Exceptions\ApiException
      */
     public function adminInformation()
     {

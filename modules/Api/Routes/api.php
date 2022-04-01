@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth.api'], function() {
     // 退出登录
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     // 刷新token
-    Route::post('/auth/token-refresh', [AuthController::class, 'refreshToken']);
+    Route::post('/auth/refresh-token', [AuthController::class, 'refreshToken']);
     // 修改密码
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
     // 获取管理员信息

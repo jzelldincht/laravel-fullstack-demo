@@ -22,6 +22,7 @@ class AuthAdmin extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * getJWTIdentifier
      * jwt标识，即 config/jwt.php -> secret
      * @return mixed
      */
@@ -31,6 +32,7 @@ class AuthAdmin extends Authenticatable implements JWTSubject
     }
 
     /**
+     * 接口方法：getJWTCustomClaims
      * jwt 自定义声明
      * @return array
      */

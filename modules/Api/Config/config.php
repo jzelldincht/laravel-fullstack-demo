@@ -12,7 +12,8 @@ return [
     ],
 
     // 缓存中应用到的所有 key
+    'cacheExpires' => 30,// 单位是秒
     'cacheKeys' => [
-        'adminInfo' => 'adminInfo_{:id}',
+        'adminInfo' => 'AI',
     ],
 ];

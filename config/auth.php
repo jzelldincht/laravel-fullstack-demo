@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'auth',
+        'guard' => 'auth',// api -> auth，即为 `guards` 中的 `auth`
         'passwords' => 'users',
     ],
 

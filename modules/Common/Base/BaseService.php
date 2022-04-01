@@ -3,6 +3,7 @@
 namespace Modules\Common\Base;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Modules\Api\Exceptions\ApiException;
 use Modules\Common\Variables\HttpStatus;
 use Modules\Common\Variables\ResponseMessage;
@@ -55,9 +56,9 @@ class BaseService
      * @param $message String 提示信息
      * @param array $data Array 返回信息
      * @param $status Int 自定义状态码
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function apiSuccess(string $message = '', array $data = array(), int $status = ResponseStatus::OK): \Illuminate\Http\JsonResponse
+    public function apiSuccess(string $message = '', array $data = array(), int $status = ResponseStatus::OK): JsonResponse
     {
         if ($message == '') {
             $message = ResponseMessage::OK;
@@ -91,7 +92,7 @@ class BaseService
      * @param $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonCreate(Model $model, array $data = [], string $successMessage = ResponseMessage::ADD_API_SUCCESS, string $errorMessage = ResponseMessage::ADD_API_ERROR)
@@ -112,7 +113,7 @@ class BaseService
      * @param $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonUpdate(Model $model, $id, array $data = [], string $successMessage = ResponseMessage::UPDATE_API_SUCCESS, string $errorMessage = ResponseMessage::UPDATE_API_ERROR)
@@ -133,7 +134,7 @@ class BaseService
      * @param array $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonStatusUpdate($model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
@@ -152,7 +153,7 @@ class BaseService
      * @param array $data array 添加数据
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonSortsUpdate(Model $model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
@@ -170,7 +171,7 @@ class BaseService
      * @param array $ArrId
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonDestroy(Model $model, array $ArrId, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
@@ -188,7 +189,7 @@ class BaseService
      * @param array $idArr Array  删除id
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonIsDelete($model, array $idArr, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
@@ -206,7 +207,7 @@ class BaseService
      * @param array $idArr Array  删除id
      * @param $successMessage string 成功返回数据
      * @param $errorMessage string 失败返回数据
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return JsonResponse|void
      * @throws ApiException
      */
     public function commonRecycleIsDelete($model, array $idArr, string $successMessage = ResponseMessage::DELETE_RECYCLE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_RECYCLE_API_ERROR)
@@ -222,7 +223,7 @@ class BaseService
      * 获取当前域名
      * @return string
      */
-    public function getHttp(): string
+    public function getServerName(): string
     {
         $http = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
         return $http . $_SERVER['HTTP_HOST'];
@@ -447,13 +448,18 @@ class BaseService
         return round($size, 2) . $delimiter . $units[$i];
     }
 
-
-    public static function getInstance($params = null){
+    /**
+     * 单例模式获取调用类
+     * @param null $params
+     * @return mixed|null
+     */
+    public static function getInstance($params = null)
+    {
         // 获取当前 调用类
 
         $class = get_called_class();
 
-        if(!self::$instance instanceof $class){
+        if (!self::$instance instanceof $class) {
             self::$instance = new $class($params);
         }
 

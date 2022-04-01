@@ -30,7 +30,7 @@ class ModuleService extends ApiService
      */
     public function getModules(){
         // 获取用户
-        $admin = AuthService::getInstance()->adminObject()->toArray();
+        $admin = auth()->user()->toArray();
         $group_id = $admin['group_id'];// 当group_id为1时是超级管理员
 
         $columns = ['id', 'path', 'url', 'status', 'icon', 'pid','name', 'sort'];
@@ -63,7 +63,7 @@ class ModuleService extends ApiService
             return $data;
         }
 
-        $admin_info = AuthService::getInstance()->adminObject()->toArray();
+        $admin_info = auth()->user()->toArray();
         $group_id = $admin_info['group_id'];
 
         // 获取所有目录和菜单
