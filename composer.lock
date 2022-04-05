@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5539c5418b0f36f695dca89248af0156",
+    "content-hash": "a5b7183a8936c895a90462c1ace61fe8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -74,7 +74,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/3ba1e2573b38f72107b8aacc4ee177fcab30a550",
                 "reference": "3ba1e2573b38f72107b8aacc4ee177fcab30a550",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "barryvdh/reflection-docblock": "^2.0.6",
@@ -2773,7 +2779,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/predis/predis/zipball/a2fb02d738bedadcffdbb07efa3a5e7bd57f8d6e",
                 "reference": "a2fb02d738bedadcffdbb07efa3a5e7bd57f8d6e",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">=5.3.9"
