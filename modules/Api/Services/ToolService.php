@@ -28,7 +28,7 @@ class ToolService extends ApiService
      */
     public function clearCache(): \Illuminate\Http\JsonResponse
     {
-        return $this->apiSuccess(ResponseMessage::OK);
+        return $this->success(ResponseMessage::OK);
     }
 
     /**

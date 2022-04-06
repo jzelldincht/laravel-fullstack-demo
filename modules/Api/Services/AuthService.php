@@ -40,10 +40,10 @@ class AuthService extends ApiService
             // 缓存一下
             ToolService::getInstance()->saveCache(config('api.cacheKeys.adminInfo').self::$_user['id'], json_encode(self::$_user));
 
-            return $this->apiSuccess(ResponseMessage::OK, TokenService::getInstance()->responseWithToken($token));
+            return $this->success(ResponseMessage::OK, TokenService::getInstance()->responseWithToken($token));
         }
 
-        $this->apiError(ResponseMessage::INVALID_USERNAME_OR_PASSWORD, ResponseStatus::INVALID_USERNAME_OR_PASSWORD);
+        $this->fail(ResponseMessage::INVALID_USERNAME_OR_PASSWORD, ResponseStatus::INVALID_USERNAME_OR_PASSWORD);
     }
 
     /**
@@ -54,7 +54,7 @@ class AuthService extends ApiService
         // Pass true as the first param to force the token to be blacklisted "forever".
         auth()->invalidate(true);
 
-        return $this->apiSuccess(ResponseMessage::OK, []);
+        return $this->success(ResponseMessage::OK, []);
     }
 
     /**
@@ -64,7 +64,7 @@ class AuthService extends ApiService
     public function adminInfo(): \Illuminate\Http\JsonResponse
     {
         $admin = auth()->user()->toArray();
-        return $this->apiSuccess(ResponseMessage::OK, $admin);
+        return $this->success(ResponseMessage::OK, $admin);
     }
 
     /**
@@ -84,13 +84,13 @@ class AuthService extends ApiService
         ])) {
             // 修改密码
             if(AuthAdmin::where('username', $user_info['username'])->update(['password' => bcrypt($credentials['new_password'])])) {
-                return $this->apiSuccess(ResponseMessage::OK, []);
+                return $this->success(ResponseMessage::OK, []);
             }
 
             // 修改密码失败
-            $this->apiError(ResponseMessage::UPDATE_API_ERROR, ResponseStatus::UPDATE_API_ERROR);
+            $this->fail(ResponseMessage::UPDATE_API_ERROR, ResponseStatus::UPDATE_API_ERROR);
         }
 
-        $this->apiError(ResponseMessage::INVALID_OLD_PASSWORD, ResponseStatus::INVALID_OLD_PASSWORD);
+        $this->fail(ResponseMessage::INVALID_OLD_PASSWORD, ResponseStatus::INVALID_OLD_PASSWORD);
     }
 }

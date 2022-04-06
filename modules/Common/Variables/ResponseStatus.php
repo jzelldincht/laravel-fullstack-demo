@@ -60,4 +60,7 @@ class ResponseStatus
     // 以下为提示信息
     const INVALID_USERNAME_OR_PASSWORD = 90001;//用户名或密码错误
     const INVALID_OLD_PASSWORD = 90002;//原密码错误，场景：修改管理员密码——验证原始密码
+
+    // 图片上传
+    const IMAGE_UPLOADED_FAILURE = 100001;// 图片上传失败
 }

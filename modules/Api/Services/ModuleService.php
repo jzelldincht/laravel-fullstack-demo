@@ -49,7 +49,7 @@ class ModuleService extends ApiService
             $data = AuthRule::allRules($columns);
         }
 
-        return $this->apiSuccess(ResponseMessage::OK, $data);
+        return $this->success(ResponseMessage::OK, $data);
     }
 
     /**
@@ -89,6 +89,6 @@ class ModuleService extends ApiService
             $data = AuthRule::allRules(['*'], '!=', $rule_ids);
         }
 
-        return $this->apiSuccess('',$data);
+        return $this->success('',$data);
     }
 }

@@ -55,7 +55,7 @@ class TokenService extends ApiService
             // The second parameter will reset the claims for the new token
             $new_token = auth()->refresh(true, true);
 
-            return $this->apiSuccess('', $this->responseWithToken($new_token));
+            return $this->success('', $this->responseWithToken($new_token));
         } catch (TokenBlacklistedException $e) {
             // 这个时候是老的token被拉黑到黑名单了
             throw new ApiException([

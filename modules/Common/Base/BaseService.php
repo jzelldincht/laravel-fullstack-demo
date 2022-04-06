@@ -5,15 +5,17 @@ namespace Modules\Common\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Modules\Api\Exceptions\ApiException;
-use Modules\Common\Variables\HttpStatus;
+use Modules\Common\Libraries\ApiResponse;
 use Modules\Common\Variables\ResponseMessage;
-use Modules\Common\Variables\ResponseStatus;
 
 /**
  * 公共的模块服务基类
  */
 class BaseService
 {
+    // api返回操作的trait
+    use ApiResponse;
+
     public static $instance = null;
 
     public function __construct()
@@ -50,41 +52,7 @@ class BaseService
         return $model;
     }
 
-    /**
-     * 成功返回
-     * 用于所有的接口返回
-     * @param $message String 提示信息
-     * @param array $data Array 返回信息
-     * @param $status Int 自定义状态码
-     * @return JsonResponse
-     */
-    public function apiSuccess(string $message = '', array $data = array(), int $status = ResponseStatus::OK): JsonResponse
-    {
-        if ($message == '') {
-            $message = ResponseMessage::OK;
-        }
 
-        return response()->json([
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
-        ], HttpStatus::OK);
-    }
-
-    /**
-     * 失败返回
-     * 用于所有的接口返回
-     * @param $status Int 自定义状态码
-     * @param $message String 提示信息
-     * @throws ApiException
-     */
-    public function apiError(string $message = ResponseMessage::API_ERROR_EXCEPTION, int $status = ResponseStatus::BAD_REQUEST)
-    {
-        throw new ApiException([
-            'status' => $status,
-            'message' => $message
-        ]);
-    }
 
     /**
      * 添加公共方法
@@ -100,10 +68,10 @@ class BaseService
         $data['created_at'] = date('Y-m-d H:i:s');
 
         if ($model->insert($data)) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**
@@ -121,10 +89,10 @@ class BaseService
         $data['updated_at'] = date('Y-m-d H:i:s');
 
         if ($model->where('id', $id)->update($data)) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**
@@ -140,10 +108,10 @@ class BaseService
     public function commonStatusUpdate($model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
     {
         if ($model->where('id', $id)->update($data)) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**
@@ -159,10 +127,10 @@ class BaseService
     public function commonSortsUpdate(Model $model, $id, array $data = [], string $successMessage = ResponseMessage::STATUS_API_SUCCESS, string $errorMessage = ResponseMessage::STATUS_API_ERROR)
     {
         if ($model->where('id', $id)->update($data) !== false) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**
@@ -177,10 +145,10 @@ class BaseService
     public function commonDestroy(Model $model, array $ArrId, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
     {
         if ($model->whereIn('id', $ArrId)->delete()) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**
@@ -195,10 +163,10 @@ class BaseService
     public function commonIsDelete($model, array $idArr, string $successMessage = ResponseMessage::DELETE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_API_ERROR)
     {
         if ($model->whereIn('id', $idArr)->update(['is_delete' => 1, 'deleted_at' => date('Y-m-d H:i:s')])) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**
@@ -213,10 +181,10 @@ class BaseService
     public function commonRecycleIsDelete($model, array $idArr, string $successMessage = ResponseMessage::DELETE_RECYCLE_API_SUCCESS, string $errorMessage = ResponseMessage::DELETE_RECYCLE_API_ERROR)
     {
         if ($model->whereIn('id', $idArr)->update(['is_delete' => 0])) {
-            return $this->apiSuccess($successMessage);
+            return $this->success($successMessage);
         }
 
-        $this->apiError($errorMessage);
+        $this->fail($errorMessage);
     }
 
     /**

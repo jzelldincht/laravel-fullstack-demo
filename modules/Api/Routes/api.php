@@ -44,4 +44,12 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth.api'], function() {
     Route::get('/module/info', [IndexController::class, 'getModules']);
     // 获取菜单栏
     Route::get('/module/menus', [IndexController::class, 'getMenus']);
+
+    /*********************** ImageController **************************/
+    //单图上传
+    Route::post('/image/upload', 'v1\ImageController@upload');
+    //图片列表
+    Route::get('/image/list', 'v1\ImageController@getList');
+
+
 });
