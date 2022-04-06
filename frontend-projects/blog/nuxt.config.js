@@ -1,7 +1,4 @@
 export default {
-  // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'blog',
@@ -20,11 +17,14 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: ["element-ui/lib/theme-chalk/index.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {
+      src: "@/plugins/element-ui",
+      ssr: true
+    }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -40,5 +40,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    vendor: ['element-ui'],
+    transpile: ['/^element-ui/'],
   }
 }
