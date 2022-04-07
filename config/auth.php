@@ -81,7 +81,7 @@ return [
 
         'auth_admins' => [
             'driver' => 'eloquent',
-            'model' => Modules\Api\Models\AuthAdmin::class,
+            'model' => Modules\Api\Models\Admin\AuthAdmin::class,
         ],
     ],
 

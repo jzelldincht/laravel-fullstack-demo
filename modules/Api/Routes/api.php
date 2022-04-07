@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
-use Modules\Api\Http\Controllers\v1\AuthController;
-use Modules\Api\Http\Controllers\v1\IndexController;
-use Modules\Api\Http\Controllers\v1\ToolController;
+use Modules\Api\Http\Controllers\v1\Admin\AreaController;
+use Modules\Api\Http\Controllers\v1\Admin\AuthController;
+use Modules\Api\Http\Controllers\v1\Admin\ImageController;
+use Modules\Api\Http\Controllers\v1\Admin\IndexController;
+use Modules\Api\Http\Controllers\v1\Admin\ToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,10 +48,10 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth.api'], function() {
 
     /*********************** ImageController **************************/
     //单图上传
-    Route::post('/image/upload', 'v1\ImageController@upload');
+    Route::post('/image/upload', [ImageController::class, 'upload']);
     //图片列表
-    Route::get('/image/list', 'v1\ImageController@getList');
+    Route::get('/image/list', [ImageController::class, 'getList']);
 
     /*********************** AreaController **************************/
-    Route::post('/areas/data', 'v1\AreaController@getData');
+    Route::post('/areas/data', [AreaController::class, 'getData']);
 });
