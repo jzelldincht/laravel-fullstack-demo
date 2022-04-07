@@ -47,7 +47,7 @@ class AreaService extends ApiService
             $list = $list[0]['children'];
             cache()->put($cache_key, $list, config('api.areasDataExpires'));
         }
-
+        // dd(count($list));
         return $this->success(ResponseMessage::OK, $list);
     }
 

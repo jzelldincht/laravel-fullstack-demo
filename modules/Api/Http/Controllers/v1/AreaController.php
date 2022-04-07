@@ -28,6 +28,10 @@ use Modules\Api\Services\ImageService;
  */
 class AreaController extends \Modules\Api\Http\Controllers\ApiController
 {
+    /**
+     * 获取地区数据信息
+     * @return mixed
+     */
     public function getData(){
         return AreaService::getInstance()->getData();
     }
