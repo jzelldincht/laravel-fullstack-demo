@@ -19,9 +19,6 @@
 namespace Modules\Api\Services;
 
 use Modules\Api\Models\AuthArea;
-use Modules\Api\Models\AuthGroup;
-use Modules\Api\Models\AuthImage;
-use Modules\Api\Models\AuthRule;
 use Modules\Common\Variables\ResponseMessage;
 use Modules\Common\Variables\ResponseStatus;
 
