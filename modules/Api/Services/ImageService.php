@@ -51,4 +51,31 @@ class ImageService extends ApiService
 
         $this->fail(ResponseMessage::IMAGE_UPLOADED_FAILURE, ResponseStatus::IMAGE_UPLOADED_FAILURE);
     }
+
+    /**
+     * 获取图片列表
+     * @param $page int 页码
+     * @param $limit int 每页显示多少条数据
+     */
+    public function getList(int $page, int $limit){
+        if(!$page || !$limit) {
+            $this->fail(ResponseMessage::INVALID_PARAMETERS, ResponseStatus::INVALID_PARAMETERS);
+        }
+
+        $model = AuthImage::query();
+
+        $list = $model->select(['id', 'open', 'status', 'url'])
+            ->orderBy('id', 'DESC')
+            ->paginate($limit)
+            ->toArray();
+
+        /**
+         * 返回list中的data数据和总条数
+         */
+        return $this->success(ResponseMessage::OK, [
+            'list' => $list['data'],
+            'total' => $list['total'],
+        ]);
+    }
+
 }

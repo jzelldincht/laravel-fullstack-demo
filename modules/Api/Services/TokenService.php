@@ -56,18 +56,20 @@ class TokenService extends ApiService
             $new_token = auth()->refresh(true, true);
 
             return $this->success('', $this->responseWithToken($new_token));
-        } catch (TokenBlacklistedException $e) {
-            // 这个时候是老的token被拉黑到黑名单了
-            throw new ApiException([
-                'status' => ResponseStatus::TOKEN_ERROR_BLACK,
-                'message' => ResponseMessage::TOKEN_ERROR_BLACK,
-            ]);
         } catch (TokenExpiredException $e) {
             throw new ApiException([
                 'status' => ResponseStatus::TOKEN_ERROR_EXPIRED,
                 'message' => ResponseMessage::TOKEN_ERROR_EXPIRED,
             ]);
-        } catch (JWTException $e) {
+        }
+        // catch (TokenBlacklistedException $e) {
+        //     // 这个时候是老的token被拉黑到黑名单了
+        //     throw new ApiException([
+        //         'status' => ResponseStatus::TOKEN_ERROR_BLACK,
+        //         'message' => ResponseMessage::TOKEN_ERROR_BLACK,
+        //     ]);
+        // }
+        catch (JWTException $e) {
             throw new ApiException([
                 'status' => ResponseStatus::TOKEN_ERROR_JWT,
                 'message' => ResponseMessage::TOKEN_ERROR_JWT,

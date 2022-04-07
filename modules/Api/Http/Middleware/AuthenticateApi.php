@@ -65,7 +65,7 @@ class AuthenticateApi extends BaseMiddleware // 继承 JWTAuth 的BaseMiddleware
         }
 
         try {
-            $this->checkForToken($request);
+
             $auth_user = $this->auth->parseToken()->authenticate();
 
             if(!$auth_user) {
@@ -82,19 +82,28 @@ class AuthenticateApi extends BaseMiddleware // 继承 JWTAuth 的BaseMiddleware
                 $token = $this->auth->refresh();
                 // Auth::guard('auth')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
                 return $this->setAuthenticationHeader($next($request), $token);
-            } catch (JWTException $exception) {// refresh ttl 时长也到期了
+            }
+            catch (TokenBlacklistedException $e) {
                 throw new ApiException([
                     'status' => ResponseStatus::TOKEN_ERROR_EXPIRED,
-                    'message' => $exception->getMessage(),
+                    'message' => $e->getMessage(),
+                ]);
+            }
+            catch (JWTException $e) {// refresh ttl 时长也到期了
+                throw new ApiException([
+                    'status' => ResponseStatus::TOKEN_ERROR_EXPIRED,
+                    'message' => $e->getMessage(),
                 ]);
             }
 
-        } catch (TokenBlacklistedException $e) {
+        }
+        catch (TokenBlacklistedException $e) {
             throw new ApiException([
                 'status' => ResponseStatus::TOKEN_ERROR_BLACK,
                 'message' => ResponseMessage::TOKEN_ERROR_BLACK,
             ]);
-        } catch (TokenInvalidException $e) {
+        }
+        catch (TokenInvalidException | JWTException $e) {
             throw new ApiException([
                 'status' => ResponseStatus::TOKEN_ERROR_JTB,
                 'message' => ResponseMessage::TOKEN_ERROR_JTB,

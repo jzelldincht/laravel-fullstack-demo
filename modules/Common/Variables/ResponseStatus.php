@@ -63,4 +63,6 @@ class ResponseStatus
 
     // 图片上传
     const IMAGE_UPLOADED_FAILURE = 100001;// 图片上传失败
+
+    const INVALID_PARAMETERS = 110001;//无效的参数
 }

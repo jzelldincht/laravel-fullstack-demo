@@ -60,7 +60,7 @@ class ResponseMessage
 
     const TOKEN_ERROR_KEY = 'Invalid api key!';     // 70001
     const TOKEN_ERROR_SET = 'Please log in first!';        // 70002
-    const TOKEN_ERROR_BLACK = 'Token has expired!';  // 70003
+    const TOKEN_ERROR_BLACK = 'The token has been blacklisted!';  // 70003
     const TOKEN_ERROR_EXPIRED = 'Token has expired!';  // 70004
     const TOKEN_ERROR_JWT = 'Please log in first!';         //  70005
     const TOKEN_ERROR_JTB = 'Please log in first!';          // 70006
@@ -69,5 +69,7 @@ class ResponseMessage
     const INVALID_OLD_PASSWORD = 'Invalid original password!';// 90002 //原密码错误，场景：修改管理员密码——验证原始密码
 
     const IMAGE_UPLOADED_FAILURE = 'Uploaded failed.';// 图片上传失败
+
+    const INVALID_PARAMETERS = 'Invalid parameter(s).';//无效的参数
 
 }
