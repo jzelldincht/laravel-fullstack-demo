@@ -65,4 +65,6 @@ class ResponseStatus
     const IMAGE_UPLOADED_FAILURE = 100001;// 图片上传失败
 
     const INVALID_PARAMETERS = 110001;//无效的参数
+
+    const QUERY_FAILD = 110002;//查询数据库获取数据失败
 }

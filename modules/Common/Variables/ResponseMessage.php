@@ -71,5 +71,5 @@ class ResponseMessage
     const IMAGE_UPLOADED_FAILURE = 'Uploaded failed.';// 图片上传失败
 
     const INVALID_PARAMETERS = 'Invalid parameter(s).';//无效的参数
-
+    const COMMON_ERROR = 'Somethin went wrong, please try again later.';//
 }

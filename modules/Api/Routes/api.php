@@ -51,5 +51,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth.api'], function() {
     //图片列表
     Route::get('/image/list', 'v1\ImageController@getList');
 
-
+    /*********************** AreaController **************************/
+    Route::post('/areas/data', 'v1\AreaController@getData');
 });

@@ -14,6 +14,8 @@ return [
     // 缓存中应用到的所有 key
     'cacheExpires' => 30,// 单位是秒
     'cacheKeys' => [
-        'adminInfo' => 'AI',
+        'adminInfo' => 'AdminInfo',
+        'areasData' => 'AreasData',
     ],
+    'areasDataExpires' => 5356800,//62 * 24 * 3600
 ];
